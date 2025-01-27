@@ -4,15 +4,35 @@ x-environment: &env
     - ./.env
 
 services:
+  reverse-proxy:
+    container_name: traefik
+    image: traefik:v3.3
+    ports:
+      - 443:443
+    volumes:
+      # To monitor docker events
+      - /var/run/docker.sock:/var/run/docker.sock
+
+      # Required configs and certificates
+      - ./traefik.yml:/etc/traefik/traefik.yml
+      # Dynamic config which supports hot reloading
+      # See: https://doc.traefik.io/traefik/getting-started/configuration-overview/#the-dynamic-configuration
+      - ./certs-traefik.yml:/etc/traefik/dynamic/certs-traefik.yml
+      - /etc/ssl:/etc/ssl
+
   root:
     container_name: root
     image: ghcr.io/amfoss/root:latest
     restart: always
-    ports:
-      - "${ROOT_PORT}:${ROOT_PORT}"
     depends_on:
       postgres:
         condition: service_healthy
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.root.tls=true
+      - traefik.http.routers.root.entrypoints=web
+      - traefik.http.routers.root.rule=Host(`root.${HOSTNAME}`)
+      - traefik.http.services.root.loadbalancer.server.port=${ROOT_PORT}
     <<: *env # YAML merge
 
   amd:

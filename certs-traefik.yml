@@ -1,0 +1,4 @@
+tls:
+  certificates:
+    - certFile: /etc/ssl/amfoss.in/cert.pem
+    - keyFile: /etc/ssl/amfoss.in/key.pem
