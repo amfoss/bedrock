@@ -4,11 +4,20 @@ x-environment: &env
     - ./.env
 
 services:
+  sslh:
+    container_name: sslh
+    image: ghcr.io/yrutschle/sslh:latest
+    ports:
+      - 443:443
+    command: --foreground --listen=0.0.0.0:443 --tls=reverse-proxy:443 --ssh=host.docker.internal:22
+    restart: always
+    extra_hosts:
+      - host.docker.internal:host-gateway
+
   reverse-proxy:
     container_name: traefik
     image: traefik:v3.3
-    ports:
-      - 443:443
+    restart: always
     volumes:
       # To monitor docker events
       - /var/run/docker.sock:/var/run/docker.sock
@@ -56,7 +65,7 @@ services:
     volumes:
       - db-vol:/var/lib/postgresql/data
     healthcheck:
-      test: [ "CMD", "pg_isready", "-U", "${POSTGRES_USER}" ]
+      test: [ "CMD", "pg_isready", "-U", "${POSTGRES_USER}", "-d", "${POSTGRES_DB}"]
       interval: 2s
       timeout: 30s
       retries: 5
