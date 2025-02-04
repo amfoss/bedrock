@@ -1,2 +1,2 @@
-# infra-core
-Central repository for managing, deploying, and documenting amFOSS's infrastructure. Includes master configuration and automation scripts.
+# bedrock
+Bedrock serves as the core repository for managing and documenting amFOSS's infrastructure. It will contain server configuration files, automation scripts, monitoring configurations, and comprehensive documentation detailing the server setup.
