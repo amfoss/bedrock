@@ -34,6 +34,7 @@ services:
     image: containrrr/watchtower
     # Webhook url syntax: https://containrrr.dev/shoutrrr/v0.8/services/discord/
     command: --interval 10 --notification-url="discord://${DC_WEBHOOK_TOKEN}@${DC_WEBHOOK_ID}" --no-startup-message root amd
+    restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
