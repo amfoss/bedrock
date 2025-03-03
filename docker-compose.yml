@@ -59,6 +59,13 @@ services:
     restart: always
     <<: *env # YAML merge
 
+  amMentor:
+    container_name: am_mentor
+    image: ghcr.io/amfoss/ammentor:latest
+    restart: always
+    volumes: ./credentials.json:/app/credentials.json
+    <<: *env
+
   postgres:
     container_name: postgres
     image: postgres:alpine
