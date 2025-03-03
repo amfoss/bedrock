@@ -63,7 +63,8 @@ services:
     container_name: am_mentor
     image: ghcr.io/amfoss/ammentor:latest
     restart: always
-    volumes: ./credentials.json:/app/credentials.json
+    volumes:
+      - ./credentials.json:/app/credentials.json
     <<: *env
 
   postgres:
