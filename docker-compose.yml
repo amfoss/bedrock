@@ -53,6 +53,21 @@ services:
       - traefik.http.services.root.loadbalancer.server.port=${ROOT_PORT}
     <<: *env # YAML merge
 
+  amapi:
+    container_name: amapi
+    image: ghcr.io/amfoss/ammentor-backend:latest
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.root.tls=true
+      - traefik.http.routers.root.entrypoints=websecure
+      - traefik.http.routers.root.rule=Host(`amapi.${HOSTNAME}`)
+      - traefik.http.services.root.loadbalancer.server.port=${AMMENTOR_PORT}
+    <<: *env # YAML merge
+
   amd:
     container_name: amd
     image: ghcr.io/amfoss/amd:latest
