@@ -33,7 +33,7 @@ services:
     container_name: watchtower
     image: containrrr/watchtower
     # Webhook url syntax: https://containrrr.dev/shoutrrr/v0.8/services/discord/
-    command: --interval 10 --notification-url="discord://${DC_WEBHOOK_TOKEN}@${DC_WEBHOOK_ID}" --no-startup-message root amd
+    command: --interval 10 --notification-url="discord://${DC_WEBHOOK_TOKEN}@${DC_WEBHOOK_ID}" --no-startup-message root amd am_mentor amapi
     restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
@@ -62,10 +62,10 @@ services:
         condition: service_healthy
     labels:
       - traefik.enable=true
-      - traefik.http.routers.root.tls=true
-      - traefik.http.routers.root.entrypoints=websecure
-      - traefik.http.routers.root.rule=Host(`amapi.${HOSTNAME}`)
-      - traefik.http.services.root.loadbalancer.server.port=${AMMENTOR_PORT}
+      - traefik.http.routers.amapi.tls=true
+      - traefik.http.routers.amapi.entrypoints=websecure
+      - traefik.http.routers.amapi.rule=Host(`amapi.${HOSTNAME}`)
+      - traefik.http.services.amapi.loadbalancer.server.port=${AMMENTOR_PORT}
     <<: *env # YAML merge
 
   amd:
@@ -88,8 +88,9 @@ services:
     restart: always
     volumes:
       - db-vol:/var/lib/postgresql/data
+      - ./postgresql.conf:/etc/postgresql/postgresql.conf
     healthcheck:
-      test: [ "CMD", "pg_isready", "-U", "${POSTGRES_USER}", "-d", "${POSTGRES_DB}" ]
+      test: [ "CMD", "pg_isready", "-U", "${POSTGRES_USER}", "-d", "${ROOT_DB}" ]
       interval: 2s
       timeout: 30s
       retries: 5

@@ -1,3 +1,2 @@
 .env
-postgresql.conf
 credentials.json
