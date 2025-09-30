@@ -74,14 +74,6 @@ services:
     restart: always
     <<: *env # YAML merge
 
-  amMentor:
-    container_name: am_mentor
-    image: ghcr.io/amfoss/ammentor:latest
-    restart: always
-    volumes:
-      - ./credentials.json:/app/credentials.json
-    <<: *env
-
   postgres:
     container_name: postgres
     image: postgres:alpine
@@ -89,6 +81,7 @@ services:
     volumes:
       - db-vol:/var/lib/postgresql/data
       - ./postgresql.conf:/etc/postgresql/postgresql.conf
+      - ./create_databases.sql:/docker-entrypoint-initdb.d/create_databases.sql
     healthcheck:
       test: [ "CMD", "pg_isready", "-U", "${POSTGRES_USER}", "-d", "${ROOT_DB}" ]
       interval: 2s
@@ -99,5 +92,3 @@ services:
 
 volumes:
   db-vol:
-
-
