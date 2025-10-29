@@ -2,6 +2,8 @@
 x-environment: &env
   env_file:
     - ./.env
+  environment:
+    - TZ=Asia/Kolkata
 
 services:
   sslh:
