@@ -74,6 +74,12 @@ services:
     restart: always
     <<: *env # YAML merge
 
+  statusd:
+    container_name: statusd
+    image: ghcr.io/amfoss/statusd:latest
+    restart: always
+    <<: *env # YAML merge
+
   postgres:
     container_name: postgres
     image: postgres:alpine
