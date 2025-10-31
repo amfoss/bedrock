@@ -95,6 +95,8 @@ services:
       timeout: 30s
       retries: 5
       start_period: 30s
+    labels:
+      - com.centurylinklabs.watchtower.enable=false
     <<: *env
 
 volumes:
