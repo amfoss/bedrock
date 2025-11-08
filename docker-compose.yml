@@ -88,6 +88,7 @@ services:
     restart: always
     volumes:
       - db-vol:/var/lib/postgresql/data
+      - ./postgresql.conf:/etc/postgresql/postgresql.conf
       - ./create_databases.sql:/docker-entrypoint-initdb.d/create_databases.sql
     healthcheck:
       test: [ "CMD", "pg_isready", "-U", "${POSTGRES_USER}", "-d", "${ROOT_DB}" ]
