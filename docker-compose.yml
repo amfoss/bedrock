@@ -23,7 +23,9 @@ services:
     volumes:
       # To monitor docker events
       - /var/run/docker.sock:/var/run/docker.sock
-
+      # For the Dashboard
+      - ./dashboard.yml:/etc/traefik/dynamic/dashboard.yml
+      - ./secrets/traefik-htpasswd:/etc/traefik/secret/traefik-htpasswd:ro
       # Required configs and certificates
       - ./traefik.yml:/etc/traefik/traefik.yml
       # Dynamic config which supports hot reloading
