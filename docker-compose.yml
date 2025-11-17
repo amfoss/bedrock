@@ -23,8 +23,6 @@ services:
     volumes:
       # To monitor docker events
       - /var/run/docker.sock:/var/run/docker.sock
-      # For the Dashboard
-      - ./dashboard.yml:/etc/traefik/dynamic/dashboard.yml
       - ./secrets/traefik-htpasswd:/etc/traefik/secret/traefik-htpasswd:ro
       # Required configs and certificates
       - ./traefik.yml:/etc/traefik/traefik.yml
@@ -32,6 +30,14 @@ services:
       # See: https://doc.traefik.io/traefik/getting-started/configuration-overview/#the-dynamic-configuration
       - ./certs-traefik.yml:/etc/traefik/dynamic/certs-traefik.yml
       - /etc/ssl:/etc/ssl
+    labels:
+      - traefik.enable = true
+      - traefik.http.routers.traefik-dashboard.rule=Host(`traefik.amfoss.in`)
+      - traefik.http.routers.traefik-dashboard.entrypoint=websecure
+      - traefik.http.router.traefik-dashboard.service=api@internal
+      - traefik.http.router.traefik-dashboard.tls=true
+      - traefik.http.routers.traefik-dashboard.middlewares=traefik-dashboard-auth
+      - traefik.http.middlewares.traefik-dashboard-auth.basicauth.usersfile=/etc/traefik/secret/traefik-htpasswd
 
   watchtower:
     container_name: watchtower
