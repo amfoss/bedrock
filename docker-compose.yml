@@ -90,6 +90,18 @@ services:
     restart: always
     <<: *env # YAML merge
 
+  img2latex:
+    container_name: img2latex
+    image: ghcr.io/amfoss/img2latex:latest
+    restart: always
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.img2latex.tls=true
+      - traefik.http.routers.img2latex.entrypoints=websecure
+      - traefik.http.routers.img2latex.rule=Host(`latex-api.${HOSTNAME}`)
+      - traefik.http.services.img2latex.loadbalancer.server.port=${IMG2LATEX_PORT}
+    <<: *env
+
   postgres:
     container_name: postgres
     image: postgres:alpine
