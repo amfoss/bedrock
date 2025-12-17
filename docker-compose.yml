@@ -31,11 +31,11 @@ services:
       - ./certs-traefik.yml:/etc/traefik/dynamic/certs-traefik.yml
       - /etc/ssl:/etc/ssl
     labels:
-      - traefik.enable = true
+      - traefik.enable=true
       - traefik.http.routers.traefik-dashboard.rule=Host(`traefik.amfoss.in`)
-      - traefik.http.routers.traefik-dashboard.entrypoint=websecure
-      - traefik.http.router.traefik-dashboard.service=api@internal
-      - traefik.http.router.traefik-dashboard.tls=true
+      - traefik.http.routers.traefik-dashboard.entrypoints=websecure
+      - traefik.http.routers.traefik-dashboard.service=api@internal
+      - traefik.http.routers.traefik-dashboard.tls=true
       - traefik.http.routers.traefik-dashboard.middlewares=traefik-dashboard-auth
       - traefik.http.middlewares.traefik-dashboard-auth.basicauth.usersfile=/etc/traefik/secret/traefik-htpasswd
 
