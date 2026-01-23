@@ -120,6 +120,22 @@ services:
     labels:
       - com.centurylinklabs.watchtower.enable=false
     <<: *env
-
+  cloudbeaver:
+    container_name: cloudbeaver
+    image: dbeaver/cloudbeaver:latest
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - cloudbeaver_data:/opt/cloudbeaver/workspace
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.cloudbeaver.tls=true
+      - traefik.http.routers.cloudbeaver.entrypoints=websecure
+      - traefik.http.routers.cloudbeaver.rule=Host(`db.${HOSTNAME}`)
+      - traefik.http.services.cloudbeaver.loadbalancer.server.port=8978
+    <<: *env
 volumes:
   db-vol:
+  cloudbeaver_data:
