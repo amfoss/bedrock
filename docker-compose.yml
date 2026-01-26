@@ -104,7 +104,7 @@ services:
 
   postgres:
     container_name: postgres
-    image: postgres:alpine
+    image: postgres:alpine  
     restart: always
     command: [ "postgres", "-c", "config_file=/etc/postgresql/postgresql.conf" ]
     volumes:
@@ -122,7 +122,7 @@ services:
     <<: *env
   cloudbeaver:
     container_name: cloudbeaver
-    image: dbeaver/cloudbeaver:latest
+    image: dbeaver/cloudbeaver:25.3.3
     restart: always
     depends_on:
       postgres:
