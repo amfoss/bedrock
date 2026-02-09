@@ -104,7 +104,7 @@ services:
 
   postgres:
     container_name: postgres
-    image: postgres:alpine  
+    image: postgres:alpine
     restart: always
     command: [ "postgres", "-c", "config_file=/etc/postgresql/postgresql.conf" ]
     volumes:
@@ -128,14 +128,14 @@ services:
       postgres:
         condition: service_healthy
     volumes:
-      - cloudbeaver_data:/opt/cloudbeaver/workspace 
+      - cloudbeaver_data:/opt/cloudbeaver/workspace
     labels:
       - traefik.enable=true
       - traefik.http.routers.cloudbeaver.tls=true
       - traefik.http.routers.cloudbeaver.entrypoints=websecure
       - traefik.http.routers.cloudbeaver.rule=Host(`db.${HOSTNAME}`)
-      - traefik.http.services.cloudbeaver.loadbalancer.server.port=${CLOUDBEAVER_PORT}
-      - com.centurylinklabs.watchtower.enable=false 
+      - traefik.http.services.cloudbeaver.loadbalancer.server.port=8978
+      - com.centurylinklabs.watchtower.enable=false
     <<: *env
 volumes:
   db-vol:
