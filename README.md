@@ -15,10 +15,10 @@ Bedrock is the core infrastructure repository for [amFOSS](https://amfoss.in) (A
 | **img2latex** | `ghcr.io/amfoss/img2latex` | Image to LaTeX conversion API | `latex-api.amfoss.in` |
 | **cloudbeaver** | `dbeaver/cloudbeaver` | Web-based database management GUI | `db.amfoss.in` |
 | **traefik** | `traefik:v3.3` | Reverse proxy with automatic service discovery | `traefik.amfoss.in` |
-| **sslh** | `ghcr.io/yrutschle/sslh` | Protocol multiplexer for port 443 - routes TLS to Traefik and SSH to host | - |
+| **sslh** | `ghcr.io/yrutschle/sslh` | Protocol multiplexer for port 443 | - |
 | **watchtower** | `beatkind/watchtower` | Automatic container updates | - |
 | **amd** | `ghcr.io/amfoss/amd` | amFOSS Discord bot | - |
-| **statusd** | `ghcr.io/amfoss/statusd` | Status monitoring service | - |
+| **statusd** | `ghcr.io/amfoss/statusd` | Status Update monitoring service | - |
 | **postgres** | `postgres:alpine` | PostgreSQL database | - |
 
 ## CI/CD Pipeline
@@ -36,6 +36,11 @@ Developer Push --> GitHub Actions --> GHCR --> Watchtower --> Container Restart
      |                                                              |
      +-------------------------> Discord Notification <-------------+
 ```
+
+## Infra Notes
+- `sslh` has been integrated to enable SSH access on port 443, this is useful because it allows one to SSH into the server using `AMRITA-CONNECT` (which blocks all ports except 443, 80 and 8443).
+- `Traefik` was chosen over `Nginx` because it has native integration with docker which enables one to have the routing configuration within the compose file itself.
+- `Cloudbeaver` has role based user accounts for specific databases, consult the current bedrock maintainer for credentials.
 
 ## Prerequisites
 
@@ -194,16 +199,6 @@ docker compose logs -f <service-name>
 docker compose logs --tail 100 <service-name>
 ```
 
-### Restarting Services
-
-```bash
-# Single service
-docker compose restart <service-name>
-
-# All services
-docker compose restart
-```
-
 ### Updating Configuration
 
 After modifying configuration files:
@@ -214,16 +209,6 @@ docker compose up -d
 
 # Force recreate specific service
 docker compose up -d --force-recreate <service-name>
-```
-
-### Manual Image Update
-
-```bash
-# Pull latest images
-docker compose pull
-
-# Recreate containers with new images
-docker compose up -d
 ```
 
 ### Database Backup
