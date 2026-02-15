@@ -10,8 +10,8 @@ Bedrock is the core infrastructure repository for [amFOSS](https://amfoss.in) (A
 
 | Service | Image | Description | URL |
 |---------|-------|-------------|-----|
-| **root** | `ghcr.io/amfoss/root` | Main amFOSS portal/application | `root.amfoss.in` |
-| **amapi** | `ghcr.io/amfoss/ammentor-backend` | AmMentor backend API | `amapi.amfoss.in` |
+| **root** | `ghcr.io/amfoss/root` | Central amFOSS backend/API | `root.amfoss.in` |
+| **amapi** | `ghcr.io/amfoss/ammentor-backend` | amMentor backend API | `amapi.amfoss.in` |
 | **img2latex** | `ghcr.io/amfoss/img2latex` | Image to LaTeX conversion API | `latex-api.amfoss.in` |
 | **cloudbeaver** | `dbeaver/cloudbeaver` | Web-based database management GUI | `db.amfoss.in` |
 | **traefik** | `traefik:v3.3` | Reverse proxy with automatic service discovery | `traefik.amfoss.in` |
