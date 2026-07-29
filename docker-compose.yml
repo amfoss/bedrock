@@ -92,6 +92,14 @@ services:
     restart: always
     <<: *env # YAML merge
 
+  amDash:
+    container_name: amdash
+    image: ghcr.io/amfoss/amdash:latest
+    restart: always
+    volumes:
+      - amdash-vol:/data
+    <<: *env # YAML merge
+
   img2latex:
     container_name: img2latex
     image: ghcr.io/amfoss/img2latex:latest
@@ -156,3 +164,4 @@ volumes:
   db-vol:
   cloudbeaver_data:
   amd-vol:
+  amdash-vol:
