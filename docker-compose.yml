@@ -98,6 +98,12 @@ services:
     restart: always
     volumes:
       - amdash-vol:/data
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.root.tls=true
+      - traefik.http.routers.root.entrypoints=websecure
+      - traefik.http.routers.root.rule=Host(`amdash-api.${HOSTNAME}`)
+      - traefik.http.services.root.loadbalancer.server.port=8000
     <<: *env # YAML merge
 
   img2latex:
