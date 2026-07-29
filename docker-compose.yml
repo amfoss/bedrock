@@ -92,18 +92,18 @@ services:
     restart: always
     <<: *env # YAML merge
 
-  amDash:
-    container_name: amdash
+  amdash:
+    container_name: dash
     image: ghcr.io/amfoss/amdash:latest
     restart: always
     volumes:
       - amdash-vol:/data
     labels:
       - traefik.enable=true
-      - traefik.http.routers.root.tls=true
-      - traefik.http.routers.root.entrypoints=websecure
-      - traefik.http.routers.root.rule=Host(`amdash-api.${HOSTNAME}`)
-      - traefik.http.services.root.loadbalancer.server.port=8000
+      - traefik.http.routers.dash.tls=true
+      - traefik.http.routers.dash.entrypoints=websecure
+      - traefik.http.routers.dash.rule=Host(`dash-api.${HOSTNAME}`)
+      - traefik.http.services.dash.loadbalancer.server.port=8000
     <<: *env # YAML merge
 
   img2latex:
