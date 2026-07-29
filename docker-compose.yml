@@ -41,7 +41,7 @@ services:
 
   watchtower:
     container_name: watchtower
-    image: beatkind/watchtower
+    image: nickfedor/watchtower
     # Webhook url syntax: https://containrrr.dev/shoutrrr/v0.8/services/discord/
     command: --interval 10 --notification-url="discord://${DC_WEBHOOK_TOKEN}@${DC_WEBHOOK_ID}" --no-startup-message --cleanup
     restart: always
